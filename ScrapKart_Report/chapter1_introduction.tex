@@ -1,0 +1,52 @@
+\chapter{INTRODUCTION}
+
+\section{BACKGROUND}
+The management of recyclable waste is a critical component of sustainable urban development. Despite the increasing awareness of environmental conservation, the traditional scrap collection industry remains highly unorganized and reliant on manual processes. Households and businesses often struggle to find reliable and transparent channels to dispose of their recyclable materials such as paper, plastic, metal, and e-waste. Concurrently, scrap collectors operate within confined geographic areas with limited visibility into available scrap, leading to inefficient collection routes and fluctuating prices. The integration of Artificial Intelligence (AI) and modern web technologies provides an unprecedented opportunity to digitize and streamline this ecosystem. By utilizing computer vision for material identification and machine learning for dynamic price prediction, the scrap recycling process can be transformed into an efficient, fair, and easily accessible digital service. \textbf{ScrapKart AI} leverages these advancements to create a comprehensive digital marketplace that seamlessly connects waste generators with verified scrap collectors.
+
+\section{MOTIVATION}
+The primary motivation behind ScrapKart AI stems from the urgent need to address the inefficiencies and lack of transparency inherent in the conventional scrap industry. Citizens are often discouraged from recycling due to the inconvenience of locating local scrap dealers and the ambiguity surrounding the fair market value of their waste. On the other hand, scrap collectors waste significant time, effort, and fuel navigating through neighborhoods without prior knowledge of potential collections. This disjointed system results in lower recycling rates and higher environmental pollution. There is a strong motivation to develop a solution that not only simplifies the process of selling scrap but also incentivizes recycling through transparent pricing and convenient doorstep pickups. By promoting a circular economy, ScrapKart AI aims to foster a culture of environmental responsibility while providing an economic benefit to both households and local waste collectors.
+
+\section{PROBLEM STATEMENT}
+The current scrap collection sector suffers from fragmentation, lack of standardized pricing, and operational inefficiencies. Consumers do not possess accurate knowledge regarding the value of their recyclable waste and frequently fall victim to unfair pricing by informal collectors. Furthermore, the absence of a structured scheduling mechanism means collectors must rely on random door-to-door solicitation, leading to suboptimal route planning and increased carbon emissions from their vehicles. Existing waste management platforms generally focus on municipal garbage collection rather than facilitating direct peer-to-peer transactions for valuable scrap materials. Therefore, the problem lies in the absence of a unified, intelligent platform capable of automatically identifying scrap types, predicting fair market prices, and optimizing collection logistics. ScrapKart AI is proposed to overcome these barriers by implementing a centralized web application powered by AI to automate scrap valuation and streamline the scheduling process.
+
+\section{OBJECTIVES}
+The development of ScrapKart AI is guided by the following key objectives:
+\begin{itemize}
+    \item To design and implement a user-friendly web application that connects households with verified scrap collectors.
+    \item To develop a computer vision model using Convolutional Neural Networks (CNN) capable of accurately classifying various types of scrap materials from user-uploaded images.
+    \item To engineer a machine learning-based dynamic pricing engine that predicts fair scrap values based on current market trends and historical data.
+    \item To integrate a route optimization algorithm that assists scrap collectors in determining the most fuel-efficient and time-saving paths for their daily pickups.
+    \item To establish a secure digital ecosystem incorporating user authentication, transparent transaction tracking, and rewards management.
+    \item To provide actionable sustainability analytics that demonstrate the environmental impact of a user's recycling efforts.
+\end{itemize}
+
+\section{SCOPE}
+The scope of ScrapKart AI encompasses the development of a fully functional web platform catering to three primary user roles: Customers, Collectors, and Administrators. For Customers, the platform allows seamless registration, image-based scrap evaluation, pickup scheduling, and tracking of environmental contributions. For Collectors, the system provides a specialized dashboard displaying available pickup requests, optimized navigation routes, and digital transaction logs. The Admin dashboard facilitates the oversight of the entire system, including user verification, dispute resolution, and platform analytics. While the current scope focuses on solid household recyclables (e.g., plastics, metals, paper, electronics), the architecture is designed to be scalable, permitting future expansion into industrial waste management and integration with government sanitation departments.
+
+\section{EXISTING SYSTEM}
+In the existing ecosystem, the scrap collection process is entirely manual and localized. Households typically accumulate waste over extended periods and wait for itinerant scrap buyers to pass through their neighborhoods. Pricing is determined arbitrarily through verbal negotiation, often resulting in the consumer receiving less than the actual market value of the materials. There is no central registry of verified collectors, raising safety concerns for residents who allow strangers into their homes. Furthermore, collectors do not have a means of forecasting demand, which leads to inefficient daily operations. Although some early-stage mobile applications exist for waste collection, they primarily serve as basic listing directories without AI-driven material recognition, dynamic pricing mechanisms, or advanced route optimization features.
+
+\section{PROPOSED SYSTEM}
+ScrapKart AI is proposed as an intelligent, end-to-end scrap management platform that overcomes the limitations of the existing manual system. The proposed system features an AI-powered image recognition module that analyzes photos of scrap uploaded by users, automatically identifying the material category and estimating its weight. Coupled with a dynamic pricing algorithm, the system calculates an immediate, fair-market quotation for the user. Once a user accepts the quotation, a pickup request is generated and broadcasted to nearby verified collectors. Collectors can accept these requests through their dashboard, whereupon the system utilizes Google Maps API to generate an optimized travel route connecting multiple pickup locations. The platform also includes secure digital payment integration, ensuring that transactions are transparent and instantly recorded. Through this automated workflow, ScrapKart AI ensures a secure, transparent, and highly efficient recycling experience.
+
+\section{ADVANTAGES}
+The implementation of ScrapKart AI introduces several significant advantages over traditional scrap collection methods:
+\begin{itemize}
+    \item \textbf{Transparency in Pricing:} Users receive fair, data-driven valuations for their scrap, eliminating exploitation and haggling.
+    \item \textbf{Convenience:} Automated scheduling allows users to request doorstep pickups at their preferred time without needing to search for local dealers.
+    \item \textbf{Operational Efficiency for Collectors:} Route optimization minimizes travel time and fuel consumption, thereby increasing the daily earnings of collectors.
+    \item \textbf{Enhanced Security:} All collectors are verified and tracked within the system, ensuring safe interactions for households.
+    \item \textbf{Environmental Impact Tracking:} The platform's sustainability dashboard motivates users by visualizing their direct contribution to carbon footprint reduction.
+    \item \textbf{Data-Driven Insights:} Administrators can leverage platform data to understand recycling trends and optimize waste management strategies at a macro level.
+\end{itemize}
+
+\section{ORGANIZATION OF REPORT}
+The remainder of this report is organized into structured chapters that thoroughly detail the development and evaluation of ScrapKart AI.\\
+\textbf{Chapter 1} - presents the introduction, problem statement, objectives, and scope of the ScrapKart AI project.\\
+\textbf{Chapter 2} - reviews existing literature and research related to AI in waste management, pricing prediction models, and route optimization.\\
+\textbf{Chapter 3} - outlines the Requirement Analysis, detailing functional, non-functional, hardware, and software prerequisites for the platform.\\
+\textbf{Chapter 4} - delves into the System Design, presenting the architecture, database schema, and comprehensive UML models illustrating system workflows.\\
+\textbf{Chapter 5} - explains the Implementation phase, covering the frontend and backend technologies, AI model training, and integration specifics.\\
+\textbf{Chapter 6} - focuses on the Testing methodologies employed to ensure system reliability, security, and performance under various conditions.\\
+\textbf{Chapter 7} - provides the Results and Discussion, showcasing experimental outcomes, AI accuracy metrics, and an evaluation of the platform's performance.\\
+\textbf{Chapter 8} - concludes the report by summarizing the project's achievements and outlining potential avenues for future research and enhancements.

@@ -1,0 +1,68 @@
+\chapter{REQUIREMENT ANALYSIS}
+
+\section{INTRODUCTION}
+Requirement analysis is a crucial phase in the software development life cycle, dictating the scope, features, and constraints of the system to be developed. This chapter details the comprehensive requirements for ScrapKart AI, including functional, non-functional, software, and hardware prerequisites, to ensure the resulting platform meets the needs of its stakeholders: consumers, scrap collectors, and administrators.
+
+\section{FUNCTIONAL REQUIREMENTS}
+Functional requirements define the specific behaviors, operations, and data manipulations the system must execute.
+\begin{itemize}
+    \item \textbf{User Registration and Authentication:} The system shall allow users (customers and collectors) to create accounts, verify their identities, and log in securely using JWT-based authentication.
+    \item \textbf{AI-Powered Scrap Classification:} The platform shall accept image uploads from customers and utilize a CNN/YOLO model to classify the scrap material (e.g., metal, plastic, e-waste) and estimate its quantity/weight.
+    \item \textbf{Dynamic Price Quotation:} Upon classification, the system shall fetch current market rates and generate an estimated, fair-market price quotation for the uploaded scrap.
+    \item \textbf{Pickup Scheduling:} Customers shall be able to schedule a convenient time and provide a location for the scrap pickup once they accept the quotation.
+    \item \textbf{Collector Request Management:} Verified collectors shall view available pickup requests in their vicinity and have the ability to accept or decline them.
+    \item \textbf{Route Optimization:} For accepted pickups, the system shall generate an optimized travel route for the collector using the Google Maps API.
+    \item \textbf{Digital Transactions:} The platform shall record transaction details, facilitate digital payments, and generate digital receipts upon successful scrap handover.
+    \item \textbf{Sustainability Dashboard:} The system shall calculate and display the user's environmental impact, such as estimated carbon footprint reduction, based on their recycling history.
+    \item \textbf{Admin Control Panel:} Administrators shall have the capability to manage user profiles, verify collector credentials, monitor platform analytics, and update base pricing models.
+\end{itemize}
+
+\section{NON-FUNCTIONAL REQUIREMENTS}
+Non-functional requirements specify the quality attributes, performance goals, and security constraints of the system.
+\begin{itemize}
+    \item \textbf{Performance and Scalability:} The web application should load within 3 seconds under normal network conditions. The backend architecture must be horizontally scalable to support thousands of concurrent users.
+    \item \textbf{Availability:} The system shall aim for an uptime of 99.9\%, ensuring constant accessibility for users and collectors.
+    \item \textbf{Security and Privacy:} All user data, especially location and payment information, must be encrypted both in transit (using HTTPS/TLS) and at rest. Passwords must be hashed using robust algorithms (e.g., bcrypt).
+    \item \textbf{Usability:} The user interface must be intuitive, responsive, and accessible across various devices, including desktop computers, tablets, and mobile phones, ensuring ease of use for individuals with varying levels of technical proficiency.
+    \item \textbf{Reliability:} The AI model should maintain a classification accuracy of at least 85\% under diverse lighting and background conditions typical of smartphone photography.
+\end{itemize}
+
+\section{HARDWARE REQUIREMENTS}
+The hardware requirements define the physical infrastructure necessary for developing and deploying the system.
+
+\textbf{For Development and Deployment Server:}
+\begin{itemize}
+    \item \textbf{Processor:} Multi-core CPU (Intel Core i7/i9 or AMD Ryzen 7/9 equivalent) for backend processing; GPU (NVIDIA Tesla or RTX series) recommended for accelerating AI model training and inference.
+    \item \textbf{RAM:} Minimum 16 GB (32 GB recommended) to handle database operations and containerized environments.
+    \item \textbf{Storage:} 500 GB SSD or higher for fast data access, database storage, and hosting large datasets of scrap images.
+\end{itemize}
+
+\textbf{For End Users (Customers and Collectors):}
+\begin{itemize}
+    \item Any standard smartphone, tablet, or desktop computer with an active internet connection, a functional web browser, and a camera for capturing scrap images.
+\end{itemize}
+
+\section{SOFTWARE REQUIREMENTS}
+The software requirements detail the technology stack and frameworks utilized in building ScrapKart AI.
+\begin{itemize}
+    \item \textbf{Frontend Development:} Next.js, React.js, Tailwind CSS for building a responsive, dynamic user interface.
+    \item \textbf{Backend Development:} Node.js with Express.js framework to construct robust RESTful APIs.
+    \item \textbf{Database:} MongoDB (NoSQL) for flexible, scalable storage of user profiles, transaction logs, and unstructured data.
+    \item \textbf{AI and Machine Learning:} Python, TensorFlow/Keras, OpenCV, and Scikit-Learn for developing, training, and deploying the image classification and pricing models.
+    \item \textbf{External APIs:} Google Maps API for geolocation and route optimization; secure payment gateway APIs (e.g., Stripe or Razorpay) for transaction processing.
+    \item \textbf{Version Control and Deployment:} Git/GitHub for source code management; Docker for containerization; AWS, Vercel, or Firebase for cloud hosting and database deployment.
+\end{itemize}
+
+\section{FEASIBILITY ANALYSIS}
+\textbf{Technical Feasibility:} The project is technically feasible as it utilizes proven, open-source technologies (Next.js, Node.js, TensorFlow). The required APIs for mapping and payments are well-documented and highly reliable. The primary technical challenge lies in achieving high accuracy in the computer vision model, which will be mitigated by utilizing transfer learning on pre-trained networks like YOLO or ResNet.
+
+\textbf{Economic Feasibility:} The initial development utilizes open-source frameworks, minimizing software licensing costs. Operating expenses will primarily consist of cloud hosting, API usage fees, and database storage. These costs can be offset by implementing a small commission fee on successful transactions or through subscription models for large-scale collectors, ensuring economic viability.
+
+\textbf{Operational Feasibility:} The platform is designed to seamlessly integrate into the daily routines of both households and scrap collectors. By providing a clear financial incentive and an easy-to-use interface, user adoption is highly probable. The verification process for collectors ensures safety, addressing the primary operational concern of users.
+
+\section{RISK ANALYSIS}
+\begin{itemize}
+    \item \textbf{AI Misclassification:} Risk of the AI model inaccurately identifying scrap or underestimating/overestimating weight, leading to incorrect pricing. \textit{Mitigation:} Implement a feedback loop where collectors can adjust the final price upon physical inspection, and use this data to continuously retrain and improve the model.
+    \item \textbf{User Adoption Failure:} Resistance from traditional, informal scrap collectors to adopt digital technology. \textit{Mitigation:} Design an extremely simplified collector interface, provide training, and clearly demonstrate the financial benefits of optimized routing.
+    \item \textbf{Data Security Breaches:} Potential unauthorized access to user locations and personal data. \textit{Mitigation:} Enforce strict security protocols, regular vulnerability assessments, and compliance with data protection regulations.
+\end{itemize}

@@ -1,0 +1,23 @@
+# Node.js
+node_modules/
+
+# Flutter/Dart (handled mostly by sub-project gitignores, but good to have)
+.dart_tool/
+.packages
+build/
+*.class
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# MacOS
+.DS_Store
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Env
+.env

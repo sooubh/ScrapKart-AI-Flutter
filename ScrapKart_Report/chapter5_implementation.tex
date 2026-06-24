@@ -1,0 +1,35 @@
+\chapter{IMPLEMENTATION}
+
+\section{INTRODUCTION}
+The implementation phase translates system design and architectural blueprints into functional software. This chapter details the actual construction of ScrapKart AI, discussing the specific programming languages, frameworks, AI model training methodologies, and deployment strategies utilized to realize the platform.
+
+\section{FRONTEND DEVELOPMENT}
+The user interface of ScrapKart AI is constructed using \textbf{Next.js}, a React framework that enables server-side rendering (SSR) and static site generation (SSG). This choice significantly improves the initial load time and Search Engine Optimization (SEO) of the platform.
+\begin{itemize}
+    \item \textbf{UI Framework:} \textbf{Tailwind CSS} is utilized for highly customizable, utility-first styling. It allows for the rapid development of responsive designs ensuring that the application functions seamlessly across mobile and desktop devices.
+    \item \textbf{State Management:} React Context API combined with custom hooks manages the global state, handling user authentication status, theme preferences, and active pickup requests efficiently.
+    \item \textbf{Image Capture:} HTML5 Canvas and MediaDevices APIs are integrated to allow users to directly capture photos of their scrap using their device's native camera from within the web application.
+\end{itemize}
+
+\section{BACKEND AND API INTEGRATION}
+The core business logic resides within a \textbf{Node.js} runtime utilizing the \textbf{Express.js} framework. This environment is highly suited for handling the asynchronous I/O operations necessary for a web platform with real-time requirements.
+\begin{itemize}
+    \item \textbf{RESTful APIs:} The backend exposes a series of endpoints (e.g., \texttt{/api/users}, \texttt{/api/listings}, \texttt{/api/predict}) which the frontend consumes. JSON Web Tokens (JWT) are employed to secure these endpoints, ensuring that only authenticated users can access specific resources.
+    \item \textbf{Routing and Logistics Integration:} To facilitate the Collector role, the backend integrates with the \textbf{Google Maps Directions API}. When a collector accepts multiple pickup requests, the backend constructs a waypoint matrix and requests an optimized route, taking into account current traffic conditions.
+    \item \textbf{Payment Gateway:} \textbf{Stripe API} is integrated into the backend to handle the digital transfer of funds from the platform to the customer once the scrap collector confirms the physical handover.
+\end{itemize}
+
+\section{DATABASE IMPLEMENTATION}
+\textbf{MongoDB Atlas}, a fully managed cloud database, is employed for data persistence. Mongoose, an Object Data Modeling (ODM) library for MongoDB and Node.js, is utilized to enforce strict schema validations at the application level. Indexes are applied to geospatial data fields (Longitude/Latitude) within the user schema to rapidly query and pair customers with nearby collectors using MongoDB's \texttt{\$near} and \texttt{\$geoWithin} operators.
+
+\section{AI MODEL DEVELOPMENT AND TRAINING}
+The distinguishing feature of ScrapKart AI is its intelligent scrap evaluation engine, developed using Python.
+\begin{itemize}
+    \item \textbf{Data Collection and Preprocessing:} A custom dataset of over 10,000 images of common recyclable materials (plastic bottles, cardboard, metal cans, e-waste) was compiled. The images underwent augmentation techniques (rotation, scaling, brightness adjustment) using the OpenCV library to improve model robustness against poor lighting conditions.
+    \item \textbf{Classification Model (CNN/YOLO):} The \textbf{YOLOv8} (You Only Look Once) architecture was selected for object detection due to its superior speed and accuracy in identifying multiple objects within a single frame. The model was fine-tuned using transfer learning on PyTorch. During inference, it identifies the type of scrap and estimates the volume based on bounding box dimensions.
+    \item \textbf{Pricing Engine:} A \textbf{Random Forest Regressor} (via Scikit-Learn) acts as the pricing engine. It takes the classified material type, estimated volume, and live market commodities data (fetched via external financial APIs) as input features to output a highly accurate price quotation.
+    \item \textbf{Microservice Architecture:} The trained models are wrapped in a lightweight \textbf{FastAPI} Python server. The Node.js backend sends base64 encoded images to this microservice, which processes the inference and returns a JSON object containing the classification and pricing data.
+\end{itemize}
+
+\section{CLOUD DEPLOYMENT}
+The system is deployed using a containerized microservices approach. \textbf{Docker} is used to containerize both the Node.js application and the Python AI microservice, ensuring environmental consistency across development and production. The containers are orchestrated and hosted on \textbf{Amazon Web Services (AWS)}. Specifically, AWS EC2 instances equipped with GPUs are utilized for the AI microservice to ensure rapid inference times, while the frontend is deployed to \textbf{Vercel} for edge-network content delivery.

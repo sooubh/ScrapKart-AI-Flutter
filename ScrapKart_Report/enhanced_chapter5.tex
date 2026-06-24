@@ -1,0 +1,19 @@
+\chapter{TECHNICAL SPECIFICATIONS}
+
+\section{5.1.1 TECHNOLOGY DETAILS USED IN THE PROJECT}
+The \textbf{ScrapKart AI} system is developed using a combination of modern web technologies, scalable microservices, and deep learning artificial intelligence to create a seamless digital recycling marketplace. 
+
+\textbf{Frontend Technologies:}\\
+The frontend layer is responsible for user interaction and provides a highly responsive interface. Technologies such as React.js (with Next.js) and Tailwind CSS are used to design and structure the web application. The interface provides a clean, modern UI for scrap image capture, dashboard metrics, and live map tracking. HTML5 Canvas APIs are used to access the user's camera hardware securely.
+
+\textbf{Backend Technologies:}\\
+The backend layer manages the core logistical and routing logic. Node.js is utilized as the runtime environment to handle asynchronous, non-blocking operations. Express.js builds the API gateway, managing request routing and communication between the frontend and the AI microservices. JSON Web Tokens (JWT) are employed to secure the endpoints.
+
+\textbf{Database:}\\
+MongoDB is used as the primary NoSQL database. Its flexible schema is ideal for storing unstructured data like user profiles, active collector geospatial data, scrap inventory images, and transaction histories. Mongoose ODM is used to enforce strict schema validations at the application level.
+
+\textbf{Artificial Intelligence and Computer Vision:}\\
+Artificial Intelligence is the backbone of the platform's valuation system. Python is used to implement the vision models. Specifically, Convolutional Neural Networks (CNNs) and YOLOv8 (You Only Look Once) architectures are employed to process image arrays, detect the type of scrap material, and estimate its volume. Scikit-Learn is utilized to build the dynamic pricing regression model.
+
+\textbf{Geolocation and Mapping Services:}\\
+To achieve efficient logistical routing, the system integrates the Google Maps API. This service facilitates calculating the Haversine distance, determining geofenced areas, optimizing the travel route for collectors with multiple pickup points, and computing the Estimated Time of Arrival (ETA).

@@ -1,0 +1,123 @@
+\chapter{SYSTEM DESIGN}
+
+\section{INTRODUCTION}
+System Design is the process of defining the architecture, modules, interfaces, and data for a system to satisfy specified requirements. This chapter details the architectural blueprint of ScrapKart AI. It provides a comprehensive overview of how the frontend, backend, AI models, and database interact, supported by Unified Modeling Language (UML) diagrams and Data Flow Diagrams (DFDs) to visually represent system workflows.
+
+\section{SYSTEM ARCHITECTURE}
+ScrapKart AI employs a modern, decoupled three-tier architecture comprising the Presentation Layer, Application Layer, and Data Layer. This ensures high cohesion, loose coupling, and scalability.
+\begin{itemize}
+    \item \textbf{Presentation Layer (Frontend):} Built using Next.js and React, this layer provides role-specific interfaces (Customer, Collector, Admin). It handles user inputs, image capture, and displays dynamic data such as pricing, maps, and analytics.
+    \item \textbf{Application Layer (Backend \& AI):} The core logic engine built with Node.js and Express. It processes API requests, manages authentication, and orchestrates workflows. A dedicated Python microservice hosts the AI models (YOLO/CNN for classification and Scikit-Learn for pricing), which communicates with the Node.js backend via RESTful APIs. It also interfaces with external services like Google Maps for route optimization.
+    \item \textbf{Data Layer (Database):} Utilizes MongoDB for storing unstructured data like user profiles, listing details, image metadata, transaction histories, and AI model performance logs.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{Figures/System_Architecture.png}
+    \vspace{5cm} % Placeholder space
+    \caption{System Architecture of ScrapKart AI}
+    \label{fig:sys_arch}
+\end{figure}
+
+\section{DATABASE DESIGN}
+A robust database schema is essential for handling the diverse data requirements of ScrapKart AI. The MongoDB database is designed with the following core collections:
+\begin{itemize}
+    \item \textbf{Users Collection:} Stores user credentials, roles (customer/collector/admin), contact details, verification status, and location coordinates.
+    \item \textbf{ScrapCategories Collection:} Contains base market prices, material descriptions, and environmental impact metrics per kilogram for various scrap types.
+    \item \textbf{Listings Collection:} Records details of uploaded scrap, including image URLs, AI-predicted category, estimated weight, system-quoted price, and listing status (Pending, Accepted, Completed).
+    \item \textbf{Transactions Collection:} Logs completed pickups, final agreed price, payment method, timestamps, and associated user/collector IDs.
+    \item \textbf{Analytics Collection:} Stores aggregated data regarding carbon footprint reduction and total volume recycled per user.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{Figures/ER_Diagram.png}
+    \vspace{5cm}
+    \caption{Entity-Relationship (ER) Diagram}
+    \label{fig:er_diagram}
+\end{figure}
+
+\section{UNIFIED MODELING LANGUAGE (UML) DIAGRAMS}
+
+\subsection{Use Case Diagram}
+The Use Case Diagram illustrates the interactions between the actors (Customer, Collector, Admin) and the system's functionalities. Customers can upload images, view quotes, and schedule pickups. Collectors can view requests, access optimized routes, and confirm pickups. Admins manage users and oversee platform operations.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{Figures/Use_Case_Diagram.png}
+    \vspace{5cm}
+    \caption{Use Case Diagram}
+    \label{fig:use_case}
+\end{figure}
+
+\subsection{Class Diagram}
+The Class Diagram displays the system's static structure, detailing the classes (e.g., User, Listing, AI\_Engine, Transaction, RouteOptimizer), their attributes, methods, and the relationships (associations, inheritances) between them.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{Figures/Class_Diagram.png}
+    \vspace{5cm}
+    \caption{Class Diagram}
+    \label{fig:class_diagram}
+\end{figure}
+
+\subsection{Activity Diagram}
+This diagram represents the dynamic flow of control from one activity to another. It specifically maps the user journey: from logging in, uploading a scrap photo, AI processing the image, displaying the quote, scheduling the pickup, to the collector completing the transaction.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{Figures/Activity_Diagram.png}
+    \vspace{5cm}
+    \caption{Activity Diagram}
+    \label{fig:activity_diagram}
+\end{figure}
+
+\subsection{Sequence Diagram}
+The Sequence Diagram depicts the order of operations and messages exchanged between objects over time. A key sequence detailed is the scrap evaluation process: Frontend sends an image to the Backend $\rightarrow$ Backend forwards it to the AI Microservice $\rightarrow$ AI returns classification $\rightarrow$ Backend calculates price from Database $\rightarrow$ Frontend displays the quote.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{Figures/Sequence_Diagram.png}
+    \vspace{5cm}
+    \caption{Sequence Diagram}
+    \label{fig:sequence_diagram}
+\end{figure}
+
+\subsection{Component and Deployment Diagrams}
+The \textbf{Component Diagram} visualizes the physical components of the system, such as the React Frontend, Node API server, Python AI Engine, and MongoDB. The \textbf{Deployment Diagram} illustrates how these software components are distributed across hardware nodes, representing the cloud infrastructure (e.g., AWS EC2 instances hosting the APIs and AI models, connecting to a managed MongoDB Atlas cluster).
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{Figures/Deployment_Diagram.png}
+    \vspace{5cm}
+    \caption{Deployment Diagram}
+    \label{fig:deployment_diagram}
+\end{figure}
+
+\section{DATA FLOW DIAGRAMS (DFD)}
+Data Flow Diagrams provide a graphical representation of the flow of data through the information system.
+
+\subsection{DFD Level 0 (Context Diagram)}
+Illustrates ScrapKart AI as a single high-level process interacting with external entities: Customers (provide images/locations, receive quotes), Collectors (receive route data, provide pickup confirmation), and Admins (provide configuration, receive reports).
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{Figures/DFD_Level_0.png}
+    \vspace{5cm}
+    \caption{DFD Level 0}
+    \label{fig:dfd_0}
+\end{figure}
+
+\subsection{DFD Level 1}
+Decomposes the system into major sub-processes: Account Management, Scrap Evaluation (AI Processing), Order Scheduling, Route Optimization, and Transaction Processing. It shows the data stores (Databases) that these processes interact with.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{Figures/DFD_Level_1.png}
+    \vspace{5cm}
+    \caption{DFD Level 1}
+    \label{fig:dfd_1}
+\end{figure}
+
+\subsection{DFD Level 2 (AI Evaluation Process)}
+Provides a granular view of the Scrap Evaluation process. It details how image data flows into the Image Pre-processing module, then to the Feature Extraction (CNN) module, followed by the Classification module, and finally to the Pricing Engine which queries the market rate database.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{Figures/DFD_Level_2.png}
+    \vspace{5cm}
+    \caption{DFD Level 2}
+    \label{fig:dfd_2}
+\end{figure}

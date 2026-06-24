@@ -1,0 +1,94 @@
+\chapter{PLANNING PHASE}
+
+\section{6.1 PROJECT ESTIMATE}
+Project estimation plays an important role in software planning because it helps determine the required effort, development duration, and expected cost. For the ScrapKart AI project, the Constructive Cost Model (COCOMO), introduced by Barry Boehm, is used to estimate the development resources.
+
+The COCOMO model estimates software effort primarily using project size measured in KLOC (Thousand Lines of Code). 
+
+\subsection{6.1.1 EQUATIONS}
+Effort estimation is calculated using the Basic COCOMO formula:
+\[ E = a \times (KLOC)^b \]
+where:
+\begin{itemize}
+    \item $E$ = Estimated effort in Person-Months
+    \item $a, b$ = Project-specific constants
+    \item $KLOC$ = Estimated size of software in thousands of lines of code
+\end{itemize}
+
+Duration is calculated using:
+\[ D = c \times E^d \]
+where $D$ is the duration in months, and $c, d$ are constants.
+
+\subsection{6.1.2 ORGANIC PROJECT}
+The ScrapKart AI project falls under the \textbf{Organic Development Mode}. This category is suitable for projects developed by a small, experienced team using familiar tools and exhibiting moderate project complexity.
+
+For Organic projects, the constants are:
+\begin{itemize}
+    \item $a = 2.4$
+    \item $b = 1.05$
+    \item $c = 2.5$
+    \item $d = 0.38$
+\end{itemize}
+
+\subsection{6.1.3 CALCULATION}
+\textbf{Effort Calculation:}\\
+Assuming an estimated code size of approximately 10 KLOC for the full stack (Frontend, Backend, and AI integration):
+\[ E = 2.4 \times (10)^{1.05} \]
+\[ E \approx 26.9 \text{ Person-Months} \]
+
+\textbf{Estimated Duration:}\\
+\[ D = 2.5 \times (26.9)^{0.38} \]
+\[ D \approx 8.5 \text{ Months} \]
+Given concurrent development methodologies (Agile), the functional duration is compressed to approximately 6 months.
+
+\textbf{Required Team Size:}\\
+\[ N = \frac{E}{D} = \frac{26.9}{8.5} \approx 3.16 \]
+Therefore, a team of four members is optimally sufficient for project execution.
+
+\section{6.2 PROJECT SCHEDULE AND TEAM STRUCTURE}
+
+The development process of ScrapKart AI is divided into structured stages.
+
+\begin{table}[H]
+\centering
+\caption{Development Activities}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c|l|}
+\hline
+\textbf{Task} & \textbf{Activity}\\
+\hline
+T1 & Topic Selection \& Literature Review\\
+T2 & Requirement Analysis\\
+T3 & Technology Exploration (React, Node.js, YOLO)\\
+T4 & Environment Setup \& Repository Initialization\\
+T5 & Scrap Image Dataset Collection \& Cleaning\\
+T6 & User Interface Design (Tailwind CSS)\\
+T7 & Backend Node.js API Implementation\\
+T8 & AI Object Detection Model Training\\
+T9 & Database Configuration \& Maps API Integration\\
+T10 & System Integration (Connecting AI to Backend)\\
+T11 & Unit and System Testing\\
+T12 & Documentation \& Report Writing\\
+T13 & Cloud Deployment (AWS / Vercel)\\
+T14 & Final Review \& Maintenance\\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Team Structure:}\\
+The responsibilities were divided among the four team members based on technical strengths.
+\begin{table}[H]
+\centering
+\caption{ScrapKart AI Team Members}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c|l|}
+\hline
+\textbf{Developer ID} & \textbf{Team Member Name}\\
+\hline
+D1 & GUNJAL SAMIKSHA RAMDAS\\
+D2 & CHAUDHARI GAURI SANTOSH\\
+D3 & RATHOD KARAN KAILAS\\
+D4 & RANGU JITENDRA SHRINIWAS\\
+\hline
+\end{tabular}
+\end{table}

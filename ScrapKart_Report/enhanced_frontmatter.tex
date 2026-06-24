@@ -1,0 +1,448 @@
+%----------------- Front matter in Roman numbering -----------------
+\begin{titlepage}
+
+    \vspace*{1cm}
+    \begin{center}
+        % Start with "A PRELIMINARY REPORT ON"
+    {\Large \textbf{A}}\\[0.5cm]
+    {\Large \textbf{ PRELIMINARY REPORT}}\\[0.5cm]
+    {\Large \textbf{ ON}}\\[0.5cm]
+        {\huge \textbf{``ScrapKart AI"}}\\[1.5em]
+        {\normalsize SUBMITTED TO THE SAVITRIBAI PHULE PUNE UNIVERSITY}\\
+        {\normalsize IN THE PARTIAL FULFILLMENT OF THE REQUIREMENTS FOR THE AWARD OF THE DEGREE}\\[0.75em]
+        
+        {\normalsize OF}\\[0.5em]
+        
+        {\large \textbf{BACHELOR OF ENGINEERING\\(ARTIFICIAL INTELLIGENCE (AI) AND DATA SCIENCE)}}\\[1.5em]
+        {\large \textbf{SUBMITTED BY}}\\[1.5em]
+        % Student Name and Exam No
+    {\normalsize \textbf{GUNJAL SAMIKSHA RAMDAS}}\hfill {\normalsize \textbf{PRN No : 72339801A }}\\
+    {\normalsize \textbf{CHAUDHARI GAURI SANTOSH}}\hfill {\normalsize \textbf{PRN No : 72339802B }}\\
+    {\normalsize \textbf{RATHOD KARAN KAILAS}}\hfill {\normalsize \textbf{PRN No : 72339803C }}\\
+     {\normalsize \textbf{RANGU JITENDRA SHRINIWAS}}\hfill {\normalsize \textbf{PRN No : 72339804D }}\\[0.3em]
+        \centering
+        % \includegraphics[width=1\textwidth]{jit-logo-report.png}\\
+        \vspace{0cm} % Placeholder if logo is missing
+        {\large \textbf{DEPARTMENT OF ARTIFICIAL INTELLIGENCE (AI) AND DATA SCIENCE}}\\[1em]
+        {\normalsize \textbf{SAVITRIBAI PHULE PUNE UNIVERSITY\\
+        2025--2026}}
+    \end{center}
+    \vfill
+\end{titlepage}
+
+%=========== CERTIFICATE PAGE ===========
+\newpage 
+
+\cleardoublepage
+\thispagestyle{empty}
+\begin{center}
+    \textbf{\LARGE  CERTIFICATE \\ [0.2cm]}
+\end{center}
+\vspace{1cm}
+
+{\centering This is to certify that the project report entitled\\[0.2cm]
+ {\large \textbf{``ScrapKart AI"}}\\[0.3cm]
+ Submitted by\\[0.2cm]}
+ 
+\begin{center}
+  {\normalsize \textbf{GUNJAL SAMIKSHA RAMDAS}}\hfill {\normalsize \textbf{PRN No : 72339801A }}\\
+    {\normalsize \textbf{CHAUDHARI GAURI SANTOSH}}\hfill {\normalsize \textbf{PRN No : 72339802B }}\\
+    {\normalsize \textbf{RATHOD KARAN KAILAS}}\hfill {\normalsize \textbf{PRN No : 72339803C }}\\
+     {\normalsize \textbf{RANGU JITENDRA SHRINIWAS}}\hfill {\normalsize \textbf{PRN No : 72339804D }}\\
+  \end{center}   
+ is a bonafide student of this institute and the work has been carried out by him/her under the supervision of \textbf{ Ms. P. J. Patel }and it is approved for the partial fulfillment of the requirement of Savitribai Phule Pune University, for the award of the degree of \textbf{Bachelor~of ~Engineering} (Artificial Intelligence (AI) and Data Science).
+
+\vspace{1.5cm}
+\begin{center}
+\setstretch{1}   
+\noindent \begin{tabular}{c}
+\textbf{Ms. P. J. Patel} \\
+Guide \\
+Dept. of AI \& DS
+\end{tabular}
+\hfill
+\begin{tabular}{c}
+\textbf{Ms. D. D. Survase }\\
+Head \\
+Dept. of AI \& DS
+\end{tabular}\\[1cm]
+\textbf{Dr. M. V. Bhatkar}\\
+Principal\\[1cm]
+\end{center}
+Place : Nashik\\
+Date : \today
+
+\newpage
+\begin{titlepage}
+\begin{center}
+
+\textbf{\Large PROJECT APPROVAL SHEET}
+
+\vspace{0.7cm}
+
+A Project Report Titled as
+
+\vspace{1.5cm}
+
+\textbf{\LARGE ``ScrapKart AI" }
+
+\vspace{1.5cm}
+
+\begin{minipage}{0.85\textwidth}
+\centering
+Is verified for its originality in documentation, problem statement, proposed work and implementation successfully completed by
+\end{minipage}
+
+\vspace{1.2cm}
+
+\begin{tabular}{ l @{\hspace{3cm}} l }
+GUNJAL SAMIKSHA RAMDAS & Exam No: \\
+CHAUDHARI GAURI SANTOSH & Exam No: \\
+RATHOD KARAN KAILAS & Exam No: \\
+RANGU JITENDRA SHRINIWAS & Exam No: \\
+\end{tabular}
+
+\vspace{1.2cm}
+
+at
+
+\vspace{0.5cm}
+
+\textbf{DEPARTMENT OF Artificial Intelligence (AI) and Data Science}
+
+\vspace{0.4cm}
+
+JESITMR, Nashik
+
+\vspace{0.4cm}
+
+SAVITRIBAI PHULE PUNE UNIVERSITY, PUNE
+
+\vspace{0.4cm}
+
+ACADEMIC YEAR 2025-2026
+
+\vspace{1.5cm}
+
+\begin{tabular}{ >{\centering\arraybackslash}p{6cm} >{\centering\arraybackslash}p{6cm} }
+Ms. P. J. Patel & Ms. D. D. Survase \\
+Guide & Head \\
+Dept. of AI \& DS & Dept. of AI \& DS. \\
+\end{tabular}
+
+\end{center}
+\end{titlepage}
+
+
+\chapter*{ACKNOWLEDGEMENT}
+\thispagestyle{empty}
+    \vspace{0.7cm} 
+    \setstretch{1}
+   
+    We take this opportunity to express our sincere gratitude to all those who have contributed to the successful completion of our project report titled \textbf{ “ScrapKart AI”}.\\ \\
+First and foremost, we would like to express our deep sense of gratitude to our project guide \textbf{Ms. P. J. Patel}, Department of Artificial Intelligence and Data Science, for her constant guidance, valuable suggestions, and continuous encouragement throughout the course of this work. Her expertise, patience, and motivation were instrumental in helping us understand and implement the project successfully. \\ \\
+We are also profoundly thankful to \textbf{ Ms. D. D. Survase}, Head of the Department of \break Artificial Intelligence and Data Science, for her invaluable support, constructive feedback, and for providing all necessary facilities that enabled the smooth execution of this project. \\ \\
+We extend our heartfelt thanks to \textbf{ Dr. M. V. Bhatkar}, Principal, Jawahar Education Society’s Institute of Technology, Management \& Research, Nashik, for his inspiration and for creating an excellent academic environment that fostered our learning and \break research. \\ \\
+We also thank all the \textbf{ faculty members} of the Department of Artificial Intelligence and Data Science for their cooperation, encouragement, and technical insights throughout the project period. \\ \\
+Finally, we express our gratitude to our \textbf{ parents, friends, and peers} for their continuous support, motivation, and understanding, which inspired us to complete this project successfully.
+
+\begin{flushright}
+\vspace{1.5cm}
+\begin{minipage}{0.5\textwidth}
+\begin{flushleft}
+\textbf{GUNJAL SAMIKSHA RAMDAS}\\[0.2cm]
+\textbf{CHAUDHARI GAURI SANTOSH }\\[0.2cm]
+\textbf{RATHOD KARAN KAILAS}\\[0.2cm]
+\textbf{RANGU JITENDRA SHRINIWAS}\\[0.2cm]
+\end{flushleft}
+\end{minipage}
+\end{flushright}
+
+%=========== ABSTRACT ===========
+\chapter*{ABSTRACT}
+\thispagestyle{empty}
+
+\vspace{1cm}
+\setstretch{1}
+\hyphenpenalty=10000
+
+The exponential expansion of urban settlements has catalyzed a critical challenge in the domain of solid waste management, particularly concerning the recycling of household and industrial scrap. Traditional methodologies for scrap collection are fraught with systemic inefficiencies, including arbitrary pricing, disjointed logistical operations, and an overall lack of transparency. These limitations reduce user participation and negatively impact recycling efficiency and environmental sustainability.\\
+
+\noindent The proposed system, ScrapKart AI, offers an intelligent, interactive, web-based digital marketplace to overcome these limitations. It bridges the gap between individual households and verified scrap aggregators. Built with modern web technologies such as React.js, Node.js, and MongoDB, the system provides a seamless connection between users and scrap collectors. The core innovation of the system lies in its utilization of advanced Computer Vision algorithms—specifically Convolutional Neural Networks (CNNs) and YOLO frameworks—to automatically classify scrap materials from user-uploaded images and dynamically estimate their fair market value.\\
+
+\noindent By emphasizing a software-only, AI-powered approach, the system incorporates geolocation services for optimized routing of scrap collectors. It minimizes logistical overhead, improves collector dispatch times, and contributes to a smarter, more efficient circular economy through enhanced pricing transparency and real-time transaction accessibility.\\
+
+\noindent In conclusion, ScrapKart AI bridges the gap between manual waste management and modern digital innovation. It incentivizes consumer participation in recycling by ensuring fair valuation and operational transparency, laying the foundation for future smart city sustainability solutions.\\
+
+\noindent Keywords: Artificial Intelligence, Smart Waste Collection, Generative AI, Circular Economy, Geolocation, Route Optimization, Computer Vision.
+
+
+\newpage
+%================== TABLE OF CONTENTS (normal case) ==================
+
+\clearpage
+\chapter*{Table of Contents}  % normal case
+\thispagestyle{empty}
+
+\noindent
+\textbf{List of Abbreviations} \hfill i\\
+\textbf{List of Figures} \hfill ii\\
+\textbf{List of Tables} \hfill iii
+
+\setstretch{1.2}
+\begin{longtable}{|p{1cm}|p{12cm}|p{1.5cm}|}
+\hline
+\textbf{Sr. No.} & \textbf{Title of chapter} & \textbf{Page No.}\\
+\hline
+01 & \textbf{Introduction} & 1\\
+   & 1.1 Background & 1\\
+   & 1.2 Motivation & 1\\
+   & 1.3 Problem definition & 1\\
+   & 1.4 Organization of report & 2\\
+\hline
+02 & \textbf{Literature survey} & 3\\
+\hline
+03 & \textbf{Requirement Analysis Phase} & 5\\
+   & 3.1 Introduction & 5\\
+   & 3.1.1 Project scope & 5\\
+   & 3.1.2 User classes and characteristics & 6\\
+   & 3.1.3 Assumptions and dependencies & 7\\
+   & 3.2  Functional requirements & 7\\
+   & 3.2.1  Users can upload scrap datasets (Images)& 7\\
+   & 3.2.2  The AI engine generates personalized price estimates& 8\\
+   & 3.2.3 Users can interact with logistics and mapping & 8\\
+   & 3.2.4 Admin users can manage models, data, and system operations & 8\\
+   & 3.3 External interface requirements & 8\\
+   & 3.3.1 User interfaces & 8\\
+   & 3.3.2 Software interfaces & 8\\
+   & 3.3.3 Hardware interfaces & 8\\
+   & 3.3.4 Communication interfaces & 8\\
+   & 3.4 Nonfunctional requirements & 9\\
+   & 3.4.1 Performance requirements & 9\\
+   & 3.4.2 Safety requirements & 9\\
+   & 3.4.3 Security requirements & 9\\ 
+   & 3.4.4 Software quality attributes & 9\\
+\hline
+   
+   & 3.5 System requirements & 9\\
+  & 3.5.1 Database requirements & 9\\
+& 3.5.2 Software requirements / platform choice & 9\\
+
+   & 3.5.3 Hardware requirements & 10\\ \hline   
+   & 3.6 Analysis models: SDLC model to be applied & 10\\
+   & 3.7 System implementation plan & 10\\
+   & 3.8 System economic feasibility & 10\\
+\hline
+04 & \textbf{Design Phase} & 11\\
+   & 4.1.1 Presentation layout & 11\\
+   & 4.1.2 Application layer & 11\\
+   & 4.1.3 Data layer & 12\\
+   & 4.1.4 System interaction flow & 12\\
+   & 4.1.5 Advantages of the architecture & 12\\
+   & 4.2 Data flow diagrams & 12\\
+   & 4.2.1 DFD Level 0 & 13\\
+   & 4.2.2 DFD Level 1 & 13\\
+   & 4.3 Entity–relationship diagrams & 14\\
+   & 4.4 UML diagrams & 15\\
+   & 4.4.1 Use case diagram & 15\\
+   & 4.4.2 Class diagram & 15\\
+   & 4.4.3 Activity diagram & 16\\
+   & 4.4.4 Object diagram & 17\\
+   & 4.4.5 Sequence diagram & 17\\
+   & 4.4.6 Collaboration diagram & 18\\
+   & 4.4.7 State chart diagram & 18\\
+   & 4.4.8 Component diagram & 19\\
+   & 4.4.9 Deployment diagram & 20\\
+\hline
+05 & \textbf{Technical Specifications} & 21\\
+   & 5.1.1 Technology details used in the project & 21\\
+
+\hline
+06 & \textbf{Planning Phase} & 21\\
+   & 6.1 Project Estimate & 21\\
+   & 6.1.1 Equations & 21\\
+   & 6.1.2 Organic Project & 21\\
+   & 6.1.3 Calculation & 21\\
+   & 6.2 Project Schedule and Team Structure & 21\\
+
+\hline
+07& \textbf{Software Implementation} & 24\\
+   & 7.1 Introduction & 21\\
+   & 7.2 Database & 21\\
+   & 7.3 Important module and Algorithm & 21\\
+   & 7.3.1 Module & 21\\
+   & 7.3.2 Algorithm & 21\\
+   & 7.4 Business Logic & 21\\
+\hline
+\newpage
+\hline
+08& \textbf{Software Testing} & 24\\
+   & 8.1 Introduction & 21\\
+   & 8.1.2 Test Case For Registration & 21\\
+   & 8.1.3 Test Case For Log in & 21\\
+   & 8.1.4 Test Case For Scrap Image Uploading & 21\\
+   & 8.2 Snap Shot of Test Case & 21\\
+
+\hline
+09& \textbf{Result} & 24\\
+   & 9.1 Snapshot of the result & 21\\
+   & 9.2 Observation and Evalution & 21\\
+
+
+\hline
+10 & \textbf{Conclusions and future work} & 24\\
+   & 10.1 Conclusions & 24\\
+   & 10.2 Future work & 24\\
+   
+
+\hline
+& \textbf{References} & 50\\
+\hline
+\end{longtable}
+
+\newpage
+
+\chapter*{LIST OF ABBREVIATIONS}
+\pagestyle{romanstyle}
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\addcontentsline{toc}{chapter}{List of Abbreviations}
+
+\begin{center}
+
+\renewcommand{\arraystretch}{1.5}
+
+\begin{tabular}{p{4cm} p{8cm}}
+
+\textbf{ABBREVIATION} &
+\textbf{ILLUSTRATION}
+\\[0.5cm]
+
+AI & Artificial Intelligence \\
+
+ML & Machine Learning \\
+
+CNN & Convolutional Neural Network \\
+
+YOLO & You Only Look Once \\
+
+CV & Computer Vision \\
+
+GPS & Global Positioning System \\
+
+API & Application Programming Interface \\
+
+REST & Representational State Transfer \\
+
+JWT & JSON Web Token \\
+
+DFD & Data Flow Diagram \\
+
+ER & Entity-Relationship \\
+
+UI & User Interface \\
+
+DB & Database \\
+
+HTML & Hyper Text Markup Language \\
+
+CSS & Cascading Style Sheets \\
+
+JS & JavaScript \\
+
+\end{tabular}
+
+\end{center}
+
+\clearpage
+
+
+\newpage % List of FIGURES
+\chapter*{LIST OF FIGURES}
+\begin{table}[h]
+\centering
+\begin{tabular}{>{\arraybackslash}p{2cm} >{\arraybackslash}p{8cm} >{\arraybackslash}p{2cm}}
+\textbf{FIGURE} & \textbf{ILLUSTRATION} & \textbf{PAGE NO.} \\ [0.2cm]
+
+1: & System Architecture & 11 \\ [0.2cm]
+2: & DFD Level 0 – Context Diagram & 13\\ [0.2cm]
+3: & DFD Level 1 & 13 \\ [0.2cm]
+4: & DFD Level 2 & 14 \\ [0.2cm]
+5: & ER Diagram & 14\\ [0.2cm]
+6: & Use Case Diagram & 15 \\ [0.2cm]
+7: & Class Diagram & 15 \\ [0.2cm]
+8: & Activity Diagram & 16 \\ [0.2cm]
+9: & Object Diagram & 17 \\ [0.2cm]
+10: & Sequence Diagram & 17 \\ [0.2cm]
+11: & Collaboration Diagram & 18 \\ [0.2cm]
+12: & State Chart Diagram & 19\\ [0.2cm]
+13: & Component Diagram & 20 \\ [0.2cm]
+14: & Deployment Diagram & 20 \\ [0.2cm]
+
+\end{tabular}
+\end{table}
+\setstretch{1.2}
+
+\newpage % List of TABLES
+
+\chapter*{LIST OF TABLES}
+
+\addcontentsline{toc}{chapter}{List of Tables}
+
+\begin{center}
+
+\renewcommand{\arraystretch}{1.7}
+
+\begin{tabular}{p{2cm} p{8cm} p{2cm}}
+
+\textbf{TABLE} &
+\textbf{ILLUSTRATION} &
+\textbf{PAGE NO.}
+\\[0.6cm]
+
+1 &
+Project Development Mode &
+25
+\\
+
+2 &
+Development Activities &
+26
+\\
+
+3 &
+ScrapKart AI Team Members &
+27
+\\
+
+4 &
+Test Cases for Registration &
+30
+\\
+
+5 &
+Test Cases for User Login &
+31
+\\
+
+6 &
+Test Cases for Scrap Image Upload &
+31
+\\
+
+7 &
+Observation Result 1 (AI Processing) &
+37
+\\
+
+8 &
+Observation Result 2 (Route Optimization) &
+38
+\\
+
+\end{tabular}
+
+\end{center}
+
+\clearpage

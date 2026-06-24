@@ -1,0 +1,147 @@
+\chapter{REQUIREMENT ANALYSIS PHASE}
+
+\section{3.1 INTRODUCTION}
+The Software Requirements Specification (SRS) outlines the complete functional and non-functional requirements for \textbf{ScrapKart AI} — an AI-driven smart waste collection and recycling platform. This chapter defines the system objectives, constraints, features, and user expectations. ScrapKart AI utilizes advanced computer vision (YOLO/CNN), dynamic pricing algorithms, and geolocation services to streamline the connection between households and verified scrap collectors. The SRS ensures a clear understanding between developers, users, and stakeholders regarding system behavior and operational boundaries.
+
+\subsection{3.1.1 PROJECT SCOPE}
+The primary aim of ScrapKart AI is to provide a transparent, efficient, and centralized digital recycling marketplace. By leveraging AI, the system automatically classifies user-uploaded scrap images and assigns a market value before dispatching a nearby collector.
+
+\textbf{SCOPE OF THE PROJECT INCLUDES:}
+\begin{itemize}
+    \item Development of a web-based platform for users and collectors.
+    \item Creation of AI models trained to recognize and categorize various recyclable materials.
+    \item Integration of a dynamic pricing engine based on local rates.
+    \item Implementation of Google Maps APIs for real-time geo-tracking and route optimization.
+    \item Secure user authentication and transaction ledger management.
+    \item Admin dashboard for monitoring platform analytics and database updates.
+\end{itemize}
+
+\textbf{OUT OF SCOPE:}
+\begin{itemize}
+    \item Manufacturing of physical IoT smart bins.
+    \item Heavy industrial or hazardous waste processing.
+    \item Autonomous robotic scrap collection vehicles.
+\end{itemize}
+
+\subsection{3.1.2 USER CLASSES AND CHARACTERISTICS}
+ScrapKart AI serves multiple user groups, each requiring different system access levels and interfaces.
+
+\textbf{1. PRIMARY USER (Household/Consumer)}
+\begin{itemize}
+    \item \textbf{Description:} Individuals wishing to sell recyclable scrap from their location.
+    \item \textbf{Responsibilities:} Uploading scrap images, confirming estimated prices, providing pickup location.
+    \item \textbf{Technical Skill Level:} Basic smartphone/web literacy.
+    \item \textbf{Interface Requirement:} Intuitive, simplified UI with an AI scanner module.
+\end{itemize}
+
+\textbf{2. SCRAP COLLECTOR (Partner)}
+\begin{itemize}
+    \item \textbf{Description:} Verified logistics personnel responsible for physically collecting the scrap.
+    \item \textbf{Responsibilities:} Accepting pickup requests, navigating via maps, updating transaction status.
+    \item \textbf{Technical Skill Level:} Intermediate.
+    \item \textbf{Interface Requirement:} Map-centric dashboard, active order tracker.
+\end{itemize}
+
+\textbf{3. SYSTEM ADMINISTRATOR}
+\begin{itemize}
+    \item \textbf{Description:} Individuals managing backend systems, pricing databases, and user disputes.
+    \item \textbf{Responsibilities:} Updating base material prices, verifying collectors, maintaining platform security.
+    \item \textbf{Technical Skill Level:} Advanced.
+    \item \textbf{Interface Requirement:} Comprehensive admin panel with data analytics and logs.
+\end{itemize}
+
+\subsection{3.1.3 ASSUMPTIONS AND DEPENDENCIES}
+The development of ScrapKart AI is based on several assumptions and system dependencies.
+
+\textbf{ASSUMPTIONS:}
+\begin{itemize}
+    \item Users will upload clear and identifiable images of their scrap.
+    \item Users and collectors will have GPS-enabled devices with stable internet connections.
+    \item Market prices for scrap materials will be regularly updated by the system administrators.
+\end{itemize}
+
+\textbf{DEPENDENCIES:}
+\begin{itemize}
+    \item Machine learning frameworks such as TensorFlow/Keras for YOLO models.
+    \item Third-party mapping services like Google Maps/Places API.
+    \item Cloud database services (MongoDB) for real-time synchronization.
+\end{itemize}
+
+\section{3.2 FUNCTIONAL REQUIREMENTS}
+
+\subsection{3.2.1 USERS CAN UPLOAD SCRAP DATASETS (IMAGES)}
+Users shall be able to capture or upload images of their scrap material via the frontend interface. The system will securely transmit this image payload to the AI microservice for classification and conditional assessment.
+
+\subsection{3.2.2 THE AI ENGINE GENERATES PERSONALIZED PRICE ESTIMATES}
+Upon receiving an image, the Computer Vision model classifies the material (e.g., e-waste, plastics, metals). The backend then calculates a preliminary price using the recognized material, estimated volume, and current location-based market rates.
+
+\subsection{3.2.3 USERS CAN INTERACT WITH LOGISTICS AND MAPPING}
+Once a price is accepted, the system identifies the user's geocoordinates and dispatches the request to the nearest active collector within a predefined radius. Real-time routing updates are provided to the collector.
+
+\subsection{3.2.4 ADMIN USERS CAN MANAGE MODELS, DATA, AND SYSTEM OPERATIONS}
+Administrators have full CRUD (Create, Read, Update, Delete) access to the user database, pricing tables, and collector verification modules to ensure system integrity.
+
+\section{3.3 EXTERNAL INTERFACE REQUIREMENTS}
+
+\subsection{3.3.1 USER INTERFACES}
+The interface will be a responsive, web-based design utilizing React.js, featuring clean material design principles. It will include an AI scanner screen, live map tracking for collectors, and user transaction history.
+
+\subsection{3.3.2 SOFTWARE INTERFACES}
+The system uses RESTful APIs to communicate between the React frontend, Node.js API Gateway, and the Python-based AI service. Map data is fetched via external HTTP requests to Google Maps API.
+
+\subsection{3.3.3 HARDWARE INTERFACES}
+The system is hardware-agnostic on the client side, requiring only a modern device with a camera and web browser. The server side requires cloud instances, ideally GPU-accelerated for fast AI inference.
+
+\subsection{3.3.4 COMMUNICATION INTERFACES}
+The system relies on standard HTTPS protocols for secure data transmission. WebSockets or long-polling may be utilized for real-time status updates between the collector and the user.
+
+\section{3.4 NONFUNCTIONAL REQUIREMENTS}
+
+\subsection{3.4.1 PERFORMANCE REQUIREMENTS}
+The AI inference process (image classification to price generation) must execute within 3-5 seconds under normal network conditions. Geolocation matching should resolve in under 1 second.
+
+\subsection{3.4.2 SAFETY REQUIREMENTS}
+The system must implement strict data validation to prevent SQL injection (NoSQL injection) or cross-site scripting (XSS) attacks. User safety is ensured by verifying all collectors before granting them platform access.
+
+\subsection{3.4.3 SECURITY REQUIREMENTS}
+User passwords must be hashed using robust algorithms (e.g., bcrypt). API endpoints must be protected using JWT (JSON Web Tokens) to ensure unauthorized users cannot access sensitive routing or pricing algorithms.
+
+\subsection{3.4.4 SOFTWARE QUALITY ATTRIBUTES}
+The system must be highly available (target 99.9\% uptime), scalable via microservices architecture, and maintainable through clean, modular code practices.
+
+\section{3.5 SYSTEM REQUIREMENTS}
+
+\subsection{3.5.1 DATABASE REQUIREMENTS}
+\begin{itemize}
+    \item Support for fast spatial/geospatial queries (e.g., MongoDB \$near) to locate nearest collectors.
+    \item Flexible storage of relational/document data including user profiles and transaction histories.
+    \item High availability and automated cloud backups.
+\end{itemize}
+
+\subsection{3.5.2 SOFTWARE REQUIREMENTS / PLATFORM CHOICE}
+\begin{itemize}
+    \item \textbf{Frontend:} React.js, Next.js, HTML5/Tailwind CSS.
+    \item \textbf{Backend:} Node.js, Express.js.
+    \item \textbf{AI/ML:} Python, TensorFlow, OpenCV, YOLO architecture.
+    \item \textbf{Database:} MongoDB (NoSQL) hosted on MongoDB Atlas.
+\end{itemize}
+
+\subsection{3.5.3 HARDWARE REQUIREMENTS}
+\textbf{Client Side:}
+\begin{itemize}
+    \item Standard smartphone or desktop PC with an active internet connection and camera.
+\end{itemize}
+
+\textbf{Server Side:}
+\begin{itemize}
+    \item Minimum 8GB RAM, Multi-Core Processor, Cloud Storage (AWS S3), and a GPU (e.g., NVIDIA T4) for rapid AI inference.
+\end{itemize}
+
+\section{3.6 ANALYSIS MODELS: SDLC MODEL TO BE APPLIED}
+ScrapKart AI utilizes the Agile Software Development Life Cycle (SDLC) model. This iterative approach allows for continuous integration of complex modules, such as refining the AI model accuracy while simultaneously building the web frontend and logistics engine.
+
+\section{3.7 SYSTEM IMPLEMENTATION PLAN}
+Implementation involves several distinct phases: UI/UX prototyping, dataset collection for various scrap materials, AI Model Training, Backend API Development, Frontend Integration, Geolocation mapping integration, and finally System Testing and Deployment.
+
+\section{3.8 SYSTEM ECONOMIC FEASIBILITY}
+The project is highly economically feasible as it utilizes primarily open-source frameworks (React, Node, Python). Cloud hosting and Map API usage represent the main operational costs, which are scalable based on traffic and can be offset by a small platform transaction fee.

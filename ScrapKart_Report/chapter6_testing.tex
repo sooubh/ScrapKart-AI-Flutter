@@ -1,0 +1,78 @@
+\chapter{TESTING}
+
+\section{INTRODUCTION}
+Software testing is imperative to verify that the developed system operates correctly under expected and unexpected conditions. This chapter documents the systematic testing methodologies applied to ScrapKart AI. The objective is to identify and resolve defects, ensuring the reliability, security, and performance of the platform, particularly regarding the AI evaluation engine and transaction handling.
+
+\section{TESTING METHODOLOGIES}
+A comprehensive testing strategy was implemented encompassing several layers of the software stack:
+\begin{itemize}
+    \item \textbf{Unit Testing:} Individual functions and components were tested in isolation. For the frontend, \textbf{Jest} and \textbf{React Testing Library} were utilized to ensure UI components render correctly. In the backend, \textbf{Mocha} and \textbf{Chai} were used to validate the logic of individual API controllers (e.g., verifying that the price calculation algorithm returns correct mathematical results).
+    \item \textbf{Integration Testing:} This phase tested the interaction between the Node.js backend, the MongoDB database, and the Python AI microservice. Tools like \textbf{Postman} were heavily utilized to simulate API requests and verify that data flows correctly across the system architecture.
+    \item \textbf{System Testing:} The system was evaluated as a complete, integrated entity to verify compliance with the specified requirements outlined in Chapter 3.
+    \item \textbf{User Acceptance Testing (UAT):} A beta version of the platform was released to a small control group of 20 users (acting as customers) and 5 local scrap collectors. Their feedback on the usability of the interface and the fairness of the AI pricing was collected and analyzed.
+\end{itemize}
+
+\section{PERFORMANCE AND SECURITY TESTING}
+\begin{itemize}
+    \item \textbf{Performance Testing:} \textbf{Apache JMeter} was utilized to simulate high traffic loads, specifically targeting the AI evaluation endpoint. The test verified that the Python microservice could handle up to 500 concurrent image classification requests without exceeding a 5-second response time.
+    \item \textbf{Security Testing:} Vulnerability scanning was conducted to protect against common web exploits such as SQL Injection (NoSQL Injection in this context) and Cross-Site Scripting (XSS). JWT tokens were tested for secure expiration and signature validation to ensure unauthorized users could not access restricted endpoints.
+\end{itemize}
+
+\section{TEST CASES}
+The following tables detail critical test cases executed during the system testing phase.
+
+\begin{table}[H]
+\centering
+\caption{Test Cases for User Registration and Authentication}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{1.5cm}|p{4cm}|p{4cm}|p{3cm}|p{1.5cm}|}
+\hline
+\textbf{Test ID} & \textbf{Test Description} & \textbf{Expected Outcome} & \textbf{Actual Outcome} & \textbf{Status} \\
+\hline
+TC-01 & Register with valid credentials & Account created, redirected to dashboard & As expected & Pass \\
+\hline
+TC-02 & Register with existing email & System displays "Email already in use" error & As expected & Pass \\
+\hline
+TC-03 & Login with invalid password & System denies access, displays error message & As expected & Pass \\
+\hline
+TC-04 & Access protected route without JWT & System returns 401 Unauthorized error & As expected & Pass \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Test Cases for AI Scrap Evaluation}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{1.5cm}|p{4cm}|p{4cm}|p{3cm}|p{1.5cm}|}
+\hline
+\textbf{Test ID} & \textbf{Test Description} & \textbf{Expected Outcome} & \textbf{Actual Outcome} & \textbf{Status} \\
+\hline
+AI-01 & Upload clear image of plastic bottles & AI classifies as "Plastic", generates quote & As expected & Pass \\
+\hline
+AI-02 & Upload blurry/dark image & AI prompts user to "Please upload a clearer image" & As expected & Pass \\
+\hline
+AI-03 & Upload image of non-scrap object (e.g., a dog) & AI classifies as "Unrecognized", rejects quote & As expected & Pass \\
+\hline
+AI-04 & Verify pricing engine output & Quote matches base rate $\times$ estimated volume & As expected & Pass \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Test Cases for Collector Routing}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{1.5cm}|p{4cm}|p{4cm}|p{3cm}|p{1.5cm}|}
+\hline
+\textbf{Test ID} & \textbf{Test Description} & \textbf{Expected Outcome} & \textbf{Actual Outcome} & \textbf{Status} \\
+\hline
+RT-01 & Collector accepts 3 pickups & Map renders an optimized route connecting all 3 & As expected & Pass \\
+\hline
+RT-02 & Collector marks pickup as complete & Status updates, payment initiated, next waypoint active & As expected & Pass \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{BUG REPORTS AND RESOLUTION}
+During the integration phase, a significant defect was identified where the AI microservice occasionally timed out when processing high-resolution images (e.g., 4K smartphone photos). \textbf{Resolution:} A pre-processing script was implemented on the Node.js backend to compress and resize all incoming images to $640 \times 640$ pixels before transmitting them to the Python AI engine. This reduced payload size and inference time by 75\%, entirely resolving the timeout issue without significantly impacting classification accuracy.

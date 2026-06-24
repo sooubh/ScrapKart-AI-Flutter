@@ -1,0 +1,142 @@
+\chapter{DESIGN PHASE}
+
+\section{4.1 SYSTEM ARCHITECTURE}
+ScrapKart AI follows a scalable, decoupled microservices architecture. It aims to make scrap recycling efficient with the help of artificial intelligence, live tracking, and digital booking. The architecture includes a Presentation Layer, an Application Layer, and a Data Layer. This modular design ensures separation of concerns, enabling independent scaling and maintenance of the vision models and routing algorithms.
+
+\subsection{4.1.1 PRESENTATION LAYOUT}
+The Presentation Layer is developed using React.js (Next.js) for the web interface. It includes components such as the Onboarding Module, Home Dashboard, AI Scanner interface, Booking System, and Live Map Tracking. It is designed with a modern, clean UI (Tailwind CSS) to ensure maximum accessibility and a seamless experience for both customers and collectors.
+
+\subsection{4.1.2 APPLICATION LAYER}
+The Application Layer, powered by Node.js and an API Gateway, acts as the central router. It includes several microservices:
+\begin{itemize}
+    \item \textbf{AI/ML Service:} Handled by a Python microservice, this routes image data to the YOLO/CNN model for material detection and volume estimation.
+    \item \textbf{Booking \& Assignment:} Manages user requests, computes nearest collectors using geospatial queries, and generates dynamic pricing.
+    \item \textbf{Tracking Service:} Integrates with Google Maps API for route optimization and real-time location updates.
+\end{itemize}
+
+\subsection{4.1.3 DATA LAYER}
+The Data Layer comprises MongoDB, a NoSQL database optimized for flexible schemas and geospatial queries. It stores User \& Collector profiles, a Scrap Inventory \& Pricing table, and logs all Transactions. Cloud Storage (e.g., AWS S3) is utilized for storing large training image datasets and model weights.
+
+\subsection{4.1.4 SYSTEM INTERACTION FLOW}
+The user uploads a scrap image; the API Gateway forwards it to the AI Service. The AI returns a material classification. The backend queries the database for local rates and presents an estimate. Upon user acceptance, the Booking Service queries the active Collector Database, finds the nearest match, and dispatches the pickup.
+
+\subsection{4.1.5 ADVANTAGES OF THE ARCHITECTURE}
+\begin{itemize}
+    \item \textbf{Scalability:} Microservices allow the AI engine (GPU-dependent) to scale independently from the frontend web servers.
+    \item \textbf{Real-Time Processing:} Node.js’s event-driven architecture handles simultaneous geospatial queries and booking requests efficiently.
+    \item \textbf{Modularity:} Easy to swap out the AI model for a newer version without disrupting the booking system or web app.
+\end{itemize}
+
+\section{4.2 DATA FLOW DIAGRAMS}
+Data Flow Diagrams represent how information moves through ScrapKart AI, from image uploads to price predictions and collector routing.
+
+\subsection{4.2.1 DFD LEVEL 0 (CONTEXT DIAGRAM)}
+The Context Diagram presents ScrapKart AI as a single central process interacting with external entities: User, Collector, Admin, and Map API. Data flows include image uploads, location coordinates, and pricing outputs.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{Figures/dfd0.jpg}
+    \vspace{4cm}
+    \caption{DFD Level 0 – Context Diagram}
+\end{figure}
+
+\subsection{4.2.2 DFD LEVEL 1}
+Level 1 breaks the system into major components: User Authentication, AI Scrap Classification, Price Calculation, and Routing \& Logistics. It maps how the image payload connects to the AI process, which then links to the database for pricing logic.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{Figures/dfd 1.jpg}
+    \vspace{4cm}
+    \caption{DFD Level 1}
+\end{figure}
+
+\section{4.3 ENTITY–RELATIONSHIP DIAGRAMS}
+The ER Diagram represents the schema required for the platform. Key entities include Users, Collectors, ScrapCategories, Listings, and Transactions, highlighting primary keys and their relationships (e.g., 1-to-many from Users to Listings).
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{Figures/ERdiagram.jpg}
+    \vspace{4cm}
+    \caption{ER Diagram}
+\end{figure}
+
+\section{4.4 UML DIAGRAMS}
+UML diagrams model the system’s object-oriented structure and behavioral flows.
+
+\subsection{4.4.1 USE CASE DIAGRAM}
+The Use Case Diagram maps interactions: Users "Upload Image" and "Book Pickup". Collectors "Accept Request" and "Update Status". Admins "Manage Pricing".
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{Figures/use case diagram.png}
+    \vspace{4cm}
+    \caption{Use Case Diagram}
+\end{figure}
+
+\subsection{4.4.2 CLASS DIAGRAM}
+Displays classes like \texttt{User}, \texttt{AIModel}, \texttt{PricingEngine}, and \texttt{LogisticsManager}, detailing their attributes and methods.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{Figures/Class Diagram.png}
+    \vspace{4cm}
+    \caption{Class Diagram}
+\end{figure}
+
+\subsection{4.4.3 ACTIVITY DIAGRAM}
+Visualizes the workflow: Login $\rightarrow$ Upload Image $\rightarrow$ AI Predicts Material $\rightarrow$ Fetch Price $\rightarrow$ Confirm Booking $\rightarrow$ Assign Collector $\rightarrow$ Complete.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{Figures/Activity Diagram.png}
+    \vspace{4cm}
+    \caption{Activity Diagram}
+\end{figure}
+
+\subsection{4.4.4 OBJECT DIAGRAM}
+Presents instances during runtime, such as a specific \texttt{User(id=101)} interacting with \texttt{Order(id=505)} and \texttt{ScrapCategory(Metal)}.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{Figures/Object Diagram.png}
+    \vspace{4cm}
+    \caption{Object Diagram}
+\end{figure}
+
+\subsection{4.4.5 SEQUENCE DIAGRAM}
+Details the chronological message passing from the UI $\rightarrow$ API Gateway $\rightarrow$ AI Python Service $\rightarrow$ DB $\rightarrow$ UI during a scrap price prediction event.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{Figures/Sequence Diagram.png}
+    \vspace{4cm}
+    \caption{Sequence Diagram}
+\end{figure}
+
+\subsection{4.4.6 COLLABORATION DIAGRAM}
+Shows structural relationships and how messages trigger actions between the Collector App and User App via the central Node.js server.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{Figures/Collaboration Diagram.png}
+    \vspace{4cm}
+    \caption{Collaboration Diagram}
+\end{figure}
+
+\subsection{4.4.7 STATE CHART DIAGRAM}
+Illustrates the lifecycle of a Scrap Listing: \texttt{Pending AI} $\rightarrow$ \texttt{Price Estimated} $\rightarrow$ \texttt{Searching Collector} $\rightarrow$ \texttt{Assigned} $\rightarrow$ \texttt{Completed}.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{Figures/State chart Diagram.png}
+    \vspace{4cm}
+    \caption{State Chart Diagram}
+\end{figure}
+
+\subsection{4.4.8 COMPONENT DIAGRAM}
+Organizes the system into physical components: React Frontend, Node Backend API, Python AI Wrapper, and MongoDB Instance.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{Figures/Component Diagram.png}
+    \vspace{4cm}
+    \caption{Component Diagram}
+\end{figure}
+
+\subsection{4.4.9 DEPLOYMENT DIAGRAM}
+Shows physical nodes: User Smartphone (Browser), AWS EC2 (Hosting Node.js), GPU Instance (Hosting Python AI), and MongoDB Atlas Cluster.
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{Figures/Deployment Diagram.png}
+    \vspace{4cm}
+    \caption{Deployment Diagram}
+\end{figure}

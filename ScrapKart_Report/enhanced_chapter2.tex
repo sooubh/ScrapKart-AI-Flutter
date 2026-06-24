@@ -1,0 +1,24 @@
+\chapter{LITERATURE SURVEY}
+
+The shift from the traditional, labor-intensive system of waste management to "Smart Waste Management" is an area of extensive research, primarily driven by the necessity for sustainable urban development and a circular economy. Research over the last decade has explored how machine learning, computer vision, and IoT networks can recreate and optimize waste collection infrastructures. The existing literature can be divided broadly into four categories: inefficiencies in traditional processes, the application of Artificial Intelligence (AI) in waste sorting, logistical optimizations, and dynamic pricing models.
+
+\textbf{TRADITIONAL WASTE MANAGEMENT SYSTEMS:}\\
+Traditionally, municipal and private scrap collection systems have been characterized by a non-systematic approach. Research indicates that the traditional approach has been inefficient due to the lack of price transparency, creating a deep level of distrust between residents and scrap dealers. The absence of an effective central body means that scrap collection scheduling is inefficient, causing greater carbon footprints from collector vehicle emissions and reducing household recycling engagement. Studies show that digitizing the initial point of contact between households and collectors can increase participation by over 30\%.
+
+\textbf{AI-BASED WASTE CLASSIFICATION:}\\
+There has been considerable growth in the application of Machine Learning (ML) within the recycling industry. In recent research, scientists have successfully used Convolutional Neural Networks (CNNs) to automate the process of segregating waste. The use of ResNet-50 and YOLO models was investigated to enable high-precision real-time object detection for the purpose of recycling. Deep learning methods through computer vision and CNN models such as VGG19 have been proposed for active identification of waste categories. However, a significant limitation of these current applications is that they are predominantly restricted to industrial-scale hardware devices (e.g., smart bins or conveyor belts) and do not link directly with consumer-oriented mobile or web applications.
+
+\textbf{LOGISTICS AND ROUTE OPTIMIZATION:}\\
+Regarding the logistics of collector dispatch, much of operations research is concerned with the Vehicle Routing Problem (VRP) within a smart city paradigm. Although existing methods have been highly successful in tracking bin levels via IoT sensors to minimize the Estimated Time of Arrival (ETA) and save fuel for large municipal garbage trucks, these algorithms have not yet been widely adapted for a two-way B2C (Business-to-Consumer) interface. In an informal scrap collection market, individual households initiate demand randomly, requiring dynamic, real-time rerouting of independent collectors rather than static municipal routes.
+
+\textbf{DYNAMIC PRICING MODELS:}\\
+In the domain of dynamic pricing, frameworks proposed by previous authors utilized linear regression and time-series forecasting to predict the fluctuating market values of raw materials. However, their models were completely text-based and lacked the multimodal capability to assess material condition visually. The integration of generative vision capabilities with localized vendor pricing data to produce instant quotes for consumers has yet to be fully explored or implemented in a public platform.
+
+\textbf{GAPS AND OPPORTUNITIES FOR THIS PROJECT:}\\
+Although much progress has been made regarding standalone machine learning classification algorithms and logistical routing, there is a notable void in integrated solutions. Existing systems either operate as AI classifiers without any logistics component or as basic booking apps with no material verification or automated pricing process. The literature suggests several open challenges:
+\begin{itemize}
+    \item Limited public tools for seamlessly linking vision-based scrap valuation with localized logistics.
+    \item Lack of systems combining computer vision assessment with real-time dynamic pricing for households.
+    \item Minimal availability of fully digitized, C2B (Consumer-to-Business) scrap marketplaces that verify collectors and guarantee transparent pricing.
+\end{itemize}
+These gaps highlight the immediate need for a system like ScrapKart AI, which focuses on automated image classification, real-time pricing generation, and geospatial routing within a unified, transparent platform.
