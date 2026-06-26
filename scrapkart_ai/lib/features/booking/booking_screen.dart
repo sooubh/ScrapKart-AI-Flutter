@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/text_styles.dart';
 import '../../core/widgets/animated_blob_background.dart';
 import '../../core/widgets/glass_card.dart';
+import '../../services/local_db_service.dart';
 
 class BookingScreen extends StatefulWidget {
-  const BookingScreen({super.key});
+  final Map<String, dynamic>? initialData;
+  const BookingScreen({super.key, this.initialData});
 
   @override
   State<BookingScreen> createState() => _BookingScreenState();
@@ -25,6 +25,44 @@ class _BookingScreenState extends State<BookingScreen> {
   final TextEditingController _timeController = TextEditingController();
   bool _isLoading = false;
 
+  @override
+  void initState() {
+    super.initState();
+    
+    // Set default date & time for pickup (e.g. today, 2 hours from now)
+    final now = DateTime.now();
+    _dateController.text = '${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year}';
+    _timeController.text = '${(now.hour + 2) % 24}:00';
+
+    if (widget.initialData != null) {
+      final initial = widget.initialData!;
+      // Pre-fill weight
+      if (initial['weight'] != null) {
+        _weightController.text = initial['weight'].toString();
+      }
+
+      // Pre-fill scrap types if matched
+      final category = initial['suggestedCategory']?.toString();
+      if (category != null) {
+        if (category.toLowerCase().contains('plastic') && !_selectedTypes.contains('Plastics')) {
+          _selectedTypes.add('Plastics');
+        } else if (category.toLowerCase().contains('metal') && !_selectedTypes.contains('Metals')) {
+          _selectedTypes.add('Metals');
+        } else if (category.toLowerCase().contains('paper') || category.toLowerCase().contains('cardboard')) {
+          if (!_selectedTypes.contains('Paper / Cardboard')) {
+            _selectedTypes.add('Paper / Cardboard');
+          }
+        } else if (category.toLowerCase().contains('glass') && !_selectedTypes.contains('Glass')) {
+          _selectedTypes.add('Glass');
+        } else if (category.toLowerCase().contains('waste') || category.toLowerCase().contains('keyboard') || category.toLowerCase().contains('e-waste')) {
+          if (!_selectedTypes.contains('E-Waste')) {
+            _selectedTypes.add('E-Waste');
+          }
+        }
+      }
+    }
+  }
+
   Future<void> _submitBooking() async {
     if (_selectedTypes.isEmpty || _weightController.text.isEmpty || _addressController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -36,26 +74,53 @@ class _BookingScreenState extends State<BookingScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final user = FirebaseAuth.instance.currentUser;
-      
-      // Save data directly to Firestore "bookings" collection
-      await FirebaseFirestore.instance.collection('bookings').add({
-        'userId': user?.uid ?? 'anonymous', // Connects to the logged in user
-        'email': user?.email ?? 'Unknown',
-        'scrapTypes': _selectedTypes,
-        'estimatedWeight': _weightController.text,
-        'pickupAddress': _addressController.text,
-        'date': _dateController.text,
-        'time': _timeController.text,
-        'status': 'Pending',
-        'createdAt': FieldValue.serverTimestamp(),
-      });
+      final double weight = double.tryParse(_weightController.text) ?? 0.0;
+      double? estimatedPrice;
+      if (widget.initialData != null && widget.initialData!['estimatedPrice'] != null) {
+        estimatedPrice = (widget.initialData!['estimatedPrice'] as num).toDouble();
+        // If the weight was changed, scale the price accordingly
+        final double initialWeight = (widget.initialData!['weight'] as num?)?.toDouble() ?? weight;
+        if (initialWeight > 0 && initialWeight != weight) {
+          final double pricePerKg = (widget.initialData!['estimatedPricePerKg'] as num?)?.toDouble() ?? 15.0;
+          estimatedPrice = weight * pricePerKg;
+        }
+      } else {
+        // Calculate based on selected types
+        double maxRate = 15.0;
+        for (final t in _selectedTypes) {
+          double rate = 15.0;
+          if (t.toLowerCase().contains('metal')) {
+            rate = 75.0;
+          } else if (t.toLowerCase().contains('e-waste')) {
+            rate = 50.0;
+          } else if (t.toLowerCase().contains('plastic')) {
+            rate = 15.0;
+          } else if (t.toLowerCase().contains('paper') || t.toLowerCase().contains('cardboard')) {
+            rate = 12.0;
+          } else if (t.toLowerCase().contains('glass')) {
+            rate = 8.0;
+          }
+          if (rate > maxRate) {
+            maxRate = rate;
+          }
+        }
+        estimatedPrice = weight * maxRate;
+      }
+
+      // Save data locally using LocalDbService
+      await LocalDbService.instance.addBooking(
+        scrapTypes: _selectedTypes,
+        estimatedWeight: _weightController.text,
+        pickupAddress: _addressController.text,
+        date: _dateController.text,
+        time: _timeController.text,
+        estimatedPrice: estimatedPrice,
+      );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Scrap Pickup Booked Successfully! 🎉')),
+          const SnackBar(content: Text('Scrap Pickup Booked Locally! 🎉')),
         );
-        // Navigate to tracking screen
         context.push('/tracking');
       }
     } catch (e) {
@@ -120,7 +185,7 @@ class _BookingScreenState extends State<BookingScreen> {
                       )),
                       selected: isSelected,
                       selectedColor: AppColors.primary,
-                      backgroundColor: Colors.white.withOpacity(0.5),
+                      backgroundColor: Colors.white.withValues(alpha: 0.5),
                       checkmarkColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -215,7 +280,7 @@ class _BookingScreenState extends State<BookingScreen> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.5),
+        color: Colors.white.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white, width: 2),
       ),
@@ -230,50 +295,6 @@ class _BookingScreenState extends State<BookingScreen> {
           prefixIcon: Icon(icon, color: AppColors.primary),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDropdownField({
-    required String hint, 
-    required IconData icon, 
-    required String? value, 
-    required List<String> items, 
-    required void Function(dynamic) onChanged
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white, width: 2),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: value,
-          hint: Row(
-            children: [
-              Icon(icon, color: AppColors.primary),
-              const SizedBox(width: 12),
-              Text(hint, style: AppTextStyles.body),
-            ],
-          ),
-          icon: const Icon(Icons.arrow_drop_down, color: AppColors.primary),
-          isExpanded: true,
-          onChanged: onChanged,
-          items: items.map<DropdownMenuItem<String>>((String item) {
-            return DropdownMenuItem<String>(
-              value: item,
-              child: Row(
-                children: [
-                  Icon(icon, color: AppColors.primary),
-                  const SizedBox(width: 12),
-                  Text(item, style: AppTextStyles.body.copyWith(color: AppColors.textPrimary)),
-                ],
-              ),
-            );
-          }).toList(),
         ),
       ),
     );

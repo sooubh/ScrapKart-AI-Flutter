@@ -8,9 +8,14 @@ import 'core/utils/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    debugPrint('Firebase initialized successfully.');
+  } catch (e) {
+    debugPrint('Firebase initialization failed: $e. Running in standalone local storage mode.');
+  }
 
   // Set up global error handling
   FlutterError.onError = (FlutterErrorDetails details) {

@@ -31,7 +31,10 @@ class AppRoutes {
       ),
       GoRoute(
         path: '/booking',
-        builder: (context, state) => const BookingScreen(),
+        builder: (context, state) {
+          final initialData = state.extra as Map<String, dynamic>?;
+          return BookingScreen(initialData: initialData);
+        },
       ),
       GoRoute(
         path: '/prediction',

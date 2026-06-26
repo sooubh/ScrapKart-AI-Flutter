@@ -15,6 +15,7 @@ class TrackingScreen extends StatefulWidget {
 }
 
 class _TrackingScreenState extends State<TrackingScreen> {
+  // ignore: unused_field
   GoogleMapController? _mapController;
   bool _isSearching = true;
   bool _isAssigned = false;
@@ -156,7 +157,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
           // Searching Overlay
           if (_isSearching)
             Container(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withValues(alpha: 0.5),
               child: Center(
                 child: GlassCard(
                   padding: const EdgeInsets.all(32),
@@ -222,7 +223,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.1),
+            color: AppColors.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
@@ -255,7 +256,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
       children: [
         CircleAvatar(
           radius: 25,
-          backgroundColor: AppColors.primary.withOpacity(0.2),
+          backgroundColor: AppColors.primary.withValues(alpha: 0.2),
           child: const Icon(Icons.person, color: AppColors.primary),
         ),
         const SizedBox(width: 12),

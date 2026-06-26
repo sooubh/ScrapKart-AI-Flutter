@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/text_styles.dart';
 import '../../core/widgets/animated_blob_background.dart';
 import '../../core/widgets/glass_card.dart';
+import '../../services/local_db_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -33,53 +33,53 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       if (_isLoginMode) {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+        await LocalDbService.instance.loginUserLocal(
           email: email,
           password: password,
         );
       } else {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        final name = email.split('@')[0];
+        await LocalDbService.instance.registerUserLocal(
+          name: name[0].toUpperCase() + name.substring(1),
           email: email,
           password: password,
         );
       }
       if (mounted) context.go('/home');
-    } on FirebaseAuthException catch (e) {
-      _showError(e.message ?? 'Authentication Error');
     } catch (e) {
-      _showError(e.toString());
+      _showError(e.toString().replaceAll('Exception:', '').trim());
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
   Future<void> _signInWithGoogle() async {
+    setState(() => _isLoading = true);
     try {
-      // Temporarily bypassed for fast compiling 
-      _showError('Google Sign-In coming soon!');
-      /*
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) return; 
-
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      // Mock Google sign-in local account
+      await LocalDbService.instance.registerUserLocal(
+        name: 'Karan Patel',
+        email: 'karan.patel@gmail.com',
+        password: 'google_oauth_mock',
+      ).catchError((_) async {
+        await LocalDbService.instance.loginUserLocal(
+          email: 'karan.patel@gmail.com',
+          password: 'google_oauth_mock',
+        );
+        return true;
+      });
       if (mounted) context.go('/home');
-      */
     } catch (e) {
-      _showError('Google Sign In Failed: $e');
+      _showError('Google Sign In failed locally.');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
   Future<void> _signInWithPhone() async {
     String phoneNumber = '';
     
-    // 1. Show Dialog to ask for phone number
-    await showDialog(
+    final bool? result = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: Colors.white,
@@ -89,90 +89,46 @@ class _LoginScreenState extends State<LoginScreen> {
           keyboardType: TextInputType.phone,
           onChanged: (val) => phoneNumber = val,
           decoration: const InputDecoration(
-            hintText: '+91 9876543210 (include code)',
+            hintText: '+91 9876543210',
             hintStyle: TextStyle(color: Colors.grey),
           ),
           style: const TextStyle(color: Colors.black),
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(ctx),
+            onPressed: () => Navigator.pop(ctx, false),
             child: const Text('Cancel'),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Send OTP', style: TextStyle(color: Colors.white)),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Login', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
     );
 
-    if (phoneNumber.trim().isEmpty) return;
+    if (result != true || phoneNumber.trim().isEmpty) return;
     
     setState(() => _isLoading = true);
-
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: phoneNumber.trim(),
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        // Auto-resolution (on Android only)
-        await FirebaseAuth.instance.signInWithCredential(credential);
-        if (mounted) context.go('/home');
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        if (mounted) setState(() => _isLoading = false);
-        _showError(e.message ?? 'Phone Verification failed');
-      },
-      codeSent: (String verificationId, int? resendToken) async {
-        if (mounted) setState(() => _isLoading = false);
-        String smsCode = '';
-        
-        // 2. Ask user for the fetched OTP
-        await showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            title: const Text('Enter OTP', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-            content: TextField(
-              keyboardType: TextInputType.number,
-              onChanged: (val) => smsCode = val,
-              decoration: const InputDecoration(
-                hintText: '123456',
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-              style: const TextStyle(color: Colors.black, fontSize: 24, letterSpacing: 8),
-            ),
-            actions: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
-                onPressed: () => Navigator.pop(ctx),
-                child: const Text('Verify & Login', style: TextStyle(color: Colors.white)),
-              ),
-            ],
-          ),
+    try {
+      await LocalDbService.instance.registerUserLocal(
+        name: 'Phone User',
+        email: '${phoneNumber.trim()}@phone.local',
+        password: 'phone_auth_mock',
+      ).catchError((_) async {
+        await LocalDbService.instance.loginUserLocal(
+          email: '${phoneNumber.trim()}@phone.local',
+          password: 'phone_auth_mock',
         );
-
-        if (smsCode.trim().isNotEmpty) {
-          setState(() => _isLoading = true);
-          try {
-            final PhoneAuthCredential credential = PhoneAuthProvider.credential(
-              verificationId: verificationId, 
-              smsCode: smsCode.trim()
-            );
-            await FirebaseAuth.instance.signInWithCredential(credential);
-            if (mounted) context.go('/home');
-          } catch (e) {
-            _showError('Invalid OTP!');
-          } finally {
-            if (mounted) setState(() => _isLoading = false);
-          }
-        }
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-         if (mounted && _isLoading) setState(() => _isLoading = false);
-      },
-    );
+        return true;
+      });
+      if (mounted) context.go('/home');
+    } catch (e) {
+      _showError('Phone Login failed.');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   void _showError(String message) {
@@ -278,8 +234,20 @@ class _LoginScreenState extends State<LoginScreen> {
               // Guest Access Option
               Center(
                 child: TextButton.icon(
-                  onPressed: () {
-                    context.go('/home'); // Route directly past auth wall
+                  onPressed: () async {
+                    // Local login as Guest
+                    await LocalDbService.instance.registerUserLocal(
+                      name: 'Guest User',
+                      email: 'guest@scrapkart.local',
+                      password: 'guest_auth_mock',
+                    ).catchError((_) async {
+                      await LocalDbService.instance.loginUserLocal(
+                        email: 'guest@scrapkart.local',
+                        password: 'guest_auth_mock',
+                      );
+                      return true;
+                    });
+                    if (context.mounted) context.go('/home');
                   },
                   icon: const Icon(Icons.person_outline, color: Colors.blueAccent),
                   label: Text(
@@ -334,7 +302,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.5),
+        color: Colors.white.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white, width: 2),
       ),
@@ -358,7 +326,7 @@ class _LoginScreenState extends State<LoginScreen> {
       width: 60,
       height: 60,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.5),
+        color: Colors.white.withValues(alpha: 0.5),
         shape: BoxShape.circle,
         border: Border.all(color: Colors.white, width: 2),
       ),
